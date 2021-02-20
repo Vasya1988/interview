@@ -7,37 +7,25 @@ export default function() {
             <img class="title-img" src="img/pictures/html.png" alt="HTML">
             <div class="title">Определи свой уровень знания верстки сайтов</div>
             <p>Ответь на серию вопросов, получи оценку знаний, список уроков чтобы подтянуть свой уровень и методичку с нашего курса “Профессия: Верстальщик сайтов.”</p>
-            <a href="#" class="button">Пройти тест</a>
+            <a href="#/first-question" class="button">Пройти тест</a>
         </div>
     </div>`;
 
-    // Отображаем стартовую страницу
+    
+    // Рендерим стратовую страницу
     function renderPageStart() {
         return new Promise((resolve, reject) => {
-            main.pagesElements.page.insertAdjacentHTML('afterbegin', markupStart);
+            main.renderPage(main.pagesElements.pageFrame, markupStart);
             resolve();
         })
     };
 
-    // Добавляем событие клик на кнопку "Пройти тест"
-    function buttonStartTest() {
-        return new Promise((resolve, reject) => {
-            console.log('aaa');
-            main.pagesElements.pageStartBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('work')
-            })
-            resolve();
-        })
-    };
-    
-
-    async function render() {
+    async function runPageStart() {
         await renderPageStart();
-        await buttonStartTest();
-    }
+    };
+    runPageStart();
 
-    render();
+    return markupStart;
 
 }
 
