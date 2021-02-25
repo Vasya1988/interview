@@ -34,7 +34,6 @@ export default function() {
             resolve();
         })
     };
-    // renderPageStart();
 
     function btnCheck() {
         return new Promise((resolve, reject) => {

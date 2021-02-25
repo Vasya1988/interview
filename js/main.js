@@ -7,8 +7,17 @@ import final from './components/final.js';
 
 export const pagesElements = {
     pageFrame: document.querySelector('.plate'),
-    pageStartBtn: document.querySelector('.button')
+    pageStartBtn: document.querySelector('.button'),
+    radioBtn: document.querySelectorAll('[name=radio-group]')
+    
 };
+
+export let answers = {
+    first: [],
+    second: [],
+    third: [],
+    mail: []
+}
 
 const components = [
     {
@@ -50,8 +59,6 @@ export function renderPage(page, markup) {
     })
 };
 
-
-
 // Рендер страниц
 function render() {
     const pathArray = location.hash.split('/')[1];
@@ -60,22 +67,62 @@ function render() {
     if(location.hash.split('/')[0] === '') {
         delPage.innerHTML = '';
         components[0].component();
-        console.log('Render starting page has been done');
-        console.log('-------------------------------------------');
     }
 
     const pathComponents = components.find((e) => {
         if (e.page === pathArray) {
-
-            console.log(e.page, ' и ', pathArray)
             delPage.innerHTML = '';
             return e.component();
-        } else {
-            console.log('component no work');
-            console.log(e.page, ' и ', pathArray)
         }
     })
 }
+
+// Собираем ответы
+export function checkRadioBtn(button, group, number, btn) {
+        setTimeout(()=> {
+            // Прослушиваем событие клик кнопки "Далее"
+            button.addEventListener('click', (e) => {
+                answers[number].forEach((e, i)=> {
+                    answers[number] = [];
+                    console.log(answers[number]);
+                })
+                // Перебираем радио кнопки
+                group.forEach((item) => {
+                    
+                    // Находим выбранный ответ, по свойству checked
+                    if(item.checked === true) {
+                        answers[number].push(item.parentNode.querySelector(btn).innerText);
+                        // Добалвяем в объект с ответами
+                        console.log(answers)
+                    } 
+                });
+                checkAnswer(number, e)
+            });
+        }, 300)
+}
+
+// Проверка на заполнение ответов (Валидация)
+function checkAnswer(number, item) {
+    if (answers[number].length < 1) {
+        alert('Пожалуйста, выберите ответ');
+        item.preventDefault();
+    }
+}
+
+// Удаляем из массива с ответами ответы, при возвращении на предыдующую страницу
+// export function removeAnswers(back) {
+//     return new Promise((resolve, reject) => {
+//         // const buttonBack = document.querySelector('[data-button-back]');
+//         back.addEventListener('click', () => {
+//             answers.forEach((answer) => {
+//                 answers.pop(answer)
+//                 console.log('Answers is clean --> ', answers)
+//             })
+//         });
+//         resolve();
+        
+//     })
+// }
 
 window.addEventListener('hashchange', render);
 window.addEventListener('load', render);

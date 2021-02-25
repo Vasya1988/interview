@@ -62,8 +62,8 @@ export default function() {
 
             </div>
             <div class="plate-footer__buttons">
-                <a href="#/first-question" class="button button--back">Назад</a>
-                <a href="#/third-question" class="button">Далее</a>
+                <a href="#/first-question" data-button-back class="button button--back">Назад</a>
+                <a href="#/third-question" data-check-radio class="button">Далее</a>
             </div>
         </div>
         <!-- // plate-footer -->
@@ -77,7 +77,17 @@ export default function() {
         })
     };
 
-    renderPageStart();
+    async function run() {
+        await renderPageStart();
+        // const buttonBack = await document.querySelector('[data-button-back]');
+        const checkButton = document.querySelector('[data-check-radio]');
+        const groupButton = document.querySelectorAll('[type="checkbox"]');
+        const btnName = '.checkbox-block__text';
+        await main.checkRadioBtn(checkButton, groupButton, 'second', btnName);
+        // await main.removeAnswers(buttonBack);
+    }
+    run();
+    
 
     return markupSecondQuestion;
 

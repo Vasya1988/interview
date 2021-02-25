@@ -23,7 +23,7 @@ export default function() {
                 </label>
                 <!-- // radio-block -->
                 <!-- radio-block -->
-                <label class="radio-block radio-block--active">
+                <label class="radio-block">
                     <input type="radio" name="radio-group" class="radio-block__real">
                     <div class="radio-block__fake"></div>
                     <div class="radio-block__text">Hyper Text Markup Language</div>
@@ -62,7 +62,7 @@ export default function() {
             </div>
             <div class="plate-footer__buttons">
                 <a href="#" class="button button--back">Назад</a>
-                <a href="#/second-question" class="button">Далее</a>
+                <a href="#/second-question" data-checkRadio class="button">Далее</a>
             </div>
         </div>
         <!-- // plate-footer -->
@@ -78,7 +78,43 @@ export default function() {
         })
     };
 
-    renderPageStart();
+    // Добавляем актвиный класс
+    function active() {
+        return new Promise((resolve, reject) => {
+            // Находим элементы на странице
+            const addActiveClass = 'radio-block--active';
+            const buttonGroup = document.querySelectorAll('.radio-block');
+            // Находим выбранный ответ
+            buttonGroup.forEach((answer) => {
+                answer.addEventListener('click', (event) => {
+                    // Добавляем активный класс выбранному ответу
+                    if(answer.querySelector('[name="radio-group"]').checked === true) {
+                        console.log(answer);
+                        answer.classList.add('radio-block--active');
+                    } else {
+                        // Удаляем лишние активные классы
+                        buttonGroup.forEach((e) => {
+                            e.classList.remove('radio-block--active');
+                        })
+                    }
+                    
+                })
+            });
+            resolve();
+
+        })
+    }
+
+    async function run() {
+        await renderPageStart();
+        const checkButton = await document.querySelector('[data-checkRadio]');
+        const checkGroup = await document.querySelectorAll('[name="radio-group"]');
+        const btnName = await '.radio-block__text';
+        await active();
+        await main.checkRadioBtn(checkButton, checkGroup, 'first', btnName);
+    }
+    run();
+    
 
     return markupFirstQuestion;
 
