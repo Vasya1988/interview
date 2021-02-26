@@ -97,7 +97,7 @@ export default function() {
             </div>
             <div class="plate-footer__buttons">
                 <a href="#/second-question" class="button button--back">Назад</a>
-                <a href="#/mail-form" class="button">Далее</a>
+                <a href="#/mail-form" data-next-page class="button">Далее</a>
             </div>
         </div>
         <!-- // plate-footer -->
@@ -111,7 +111,48 @@ export default function() {
         })
     };
 
-    renderPageStart();
+    // Запись ответов
+    function checkAnswer(label, btnName) {
+        return new Promise((resolve, reject) => {
+            label.forEach((e) => {
+                e.addEventListener('click', (event) => {
+                    main.answers['third'] =[];
+                    if (e.querySelector('[name="image-group"]').checked === true) {
+                        console.log(e.querySelector(btnName).innerText)
+                        main.answers['third'].push(e.querySelector(btnName).innerText)
+                        console.log('-------------------------')
+                        console.log(main.answers)
+                    } else {
+                        alert('Пожалуйста, выберите ответ');
+                        return false
+                    }
+                })
+            })
+            resolve();
+        })
+    }
+
+    // Проверка на заполненые поля
+    function validate() {
+        return new Promise((resolve, reject) => {
+            document.querySelector('[data-next-page]').addEventListener('click', (event) => {
+                main.checkAnswer('third', event);
+            })
+        })
+    }
+
+    async function run() {
+        await renderPageStart();
+        const checkButton = document.querySelectorAll('.card-block');
+        const checkRadioImage = document.querySelectorAll('[name="image-group"]');
+        const btn = '.card-block__text';
+        await checkAnswer(checkButton, btn);
+        await validate();
+    }
+    run();
+    
+
+    
 
     return markupThirdQuestion;
 }

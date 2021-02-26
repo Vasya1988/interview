@@ -102,7 +102,7 @@ export function checkRadioBtn(button, group, number, btn) {
 }
 
 // Проверка на заполнение ответов (Валидация)
-function checkAnswer(number, item) {
+export function checkAnswer(number, item) {
     if (answers[number].length < 1) {
         alert('Пожалуйста, выберите ответ');
         item.preventDefault();
