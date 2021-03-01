@@ -103,6 +103,7 @@ export default function() {
         <!-- // plate-footer -->
         `;
 
+
     // Рендерим стратовую страницу
     function renderPageStart() {
         return new Promise((resolve, reject) => {
@@ -111,43 +112,41 @@ export default function() {
         })
     };
 
-    // Запись ответов
-    function checkAnswer(label, btnName) {
+    
+    function answer(card, cardBtn, cardPath) {
         return new Promise((resolve, reject) => {
-            label.forEach((e) => {
-                e.addEventListener('click', (event) => {
-                    main.answers['third'] =[];
-                    if (e.querySelector('[name="image-group"]').checked === true) {
-                        console.log(e.querySelector(btnName).innerText)
-                        main.answers['third'].push(e.querySelector(btnName).innerText)
-                        console.log('-------------------------')
-                        console.log(main.answers)
-                    } else {
-                        alert('Пожалуйста, выберите ответ');
-                        return false
+            const buttonNext = document.querySelector('[data-next-page]');
+            const num = 'third';
+            
+            buttonNext.addEventListener('click', (event) => {
+                main.answers[num].pop();
+                card.forEach((answ) => {
+                    if (answ.querySelector(cardBtn).checked === true) {
+                        const answer = answ.querySelector(cardPath).innerText;
+                        main.answers[num].push(answer)
+                        console.log(main.answers);
                     }
-                })
-            })
+                });
+                main.checkAnswer(num, event);
+            });
             resolve();
-        })
-    }
-
-    // Проверка на заполненые поля
-    function validate() {
-        return new Promise((resolve, reject) => {
-            document.querySelector('[data-next-page]').addEventListener('click', (event) => {
-                main.checkAnswer('third', event);
-            })
         })
     }
 
     async function run() {
         await renderPageStart();
-        const checkButton = document.querySelectorAll('.card-block');
-        const checkRadioImage = document.querySelectorAll('[name="image-group"]');
-        const btn = '.card-block__text';
-        await checkAnswer(checkButton, btn);
-        await validate();
+        // Карточки с ответами
+        const card = document.querySelectorAll('.card-block');
+
+        // Карточки радиокнопок ответов
+        const cardBtn = '[name="image-group"]';
+
+        // Текст ответа с выбранной карточки
+        const cardPath = '.card-block__text';
+
+        await answer(card, cardBtn, cardPath);
+        
+        // await validate();
     }
     run();
     
