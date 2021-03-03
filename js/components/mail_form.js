@@ -30,7 +30,6 @@ export default function() {
     function renderPageStart() {
         return new Promise((resolve, reject) => {
             main.renderPage(main.pagesElements.pageFrame, markupMailForm);
-            const checkInput = document.querySelector('.cover-content').querySelectorAll('input')[1];
             resolve();
         })
     };
@@ -38,18 +37,37 @@ export default function() {
     function btnCheck() {
         return new Promise((resolve, reject) => {
             const checkInput = document.querySelector('.cover-content').querySelectorAll('input')[1];
+
+            console.log(checkInput);
+
             checkInput.addEventListener('click', (e) => {
-                if (e.target) {
-                    location.assign('index.html#/final');
-                }
+                    const mail = document.querySelector('[type="email"]').value;
+                    const checkBox = document.querySelector('[type="checkbox"]');
+                    console.log(mailValidate(mail));
+                    if (!mailValidate(mail)) {
+                        alert('Введите корректный e-mail');
+                        return false;
+                    } else if (!checkBox.checked) {
+                        alert('Пожалуйста, ознакомьтесь с политикой');
+                        return false;
+                    } else if (mailValidate(mail) && checkBox.checked === true) {
+                        location.assign('index.html#/final');
+                    }
             });
             resolve();
         })
     };
 
+    // Проверка заполнения почты
+    function mailValidate(mail) {
+            let pattern = /^\w+\@\w+\.\w{2,3}/;
+            return pattern.test(mail);
+    }
+
     async function run() {
         await renderPageStart();
         await btnCheck();
+        
     }
     run();
 

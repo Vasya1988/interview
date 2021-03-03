@@ -109,20 +109,5 @@ export function checkAnswer(number, item) {
     }
 }
 
-// Удаляем из массива с ответами ответы, при возвращении на предыдующую страницу
-// export function removeAnswers(back) {
-//     return new Promise((resolve, reject) => {
-//         // const buttonBack = document.querySelector('[data-button-back]');
-//         back.addEventListener('click', () => {
-//             answers.forEach((answer) => {
-//                 answers.pop(answer)
-//                 console.log('Answers is clean --> ', answers)
-//             })
-//         });
-//         resolve();
-        
-//     })
-// }
-
 window.addEventListener('hashchange', render);
 window.addEventListener('load', render);
