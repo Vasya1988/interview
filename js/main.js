@@ -51,7 +51,7 @@ const components = [
     }
 ];
 
-// Рендер стекущей страницы
+// Рендер с текущей страницы
 export function renderPage(page, markup) {
     return new Promise((resolve, reject) => {
         page.insertAdjacentHTML('afterbegin', markup);
@@ -99,6 +99,22 @@ export function checkRadioBtn(button, group, number, btn) {
                 checkAnswer(number, e)
             });
         }, 300)
+}
+
+// Добваление активного класса
+export function activeClass(inp, lab, actClass) {
+    return new Promise((resolve, reject) => {
+        lab.forEach((active) => {
+            active.addEventListener('click', () => {
+                const activeInput = active.querySelector(inp).checked;
+                if (activeInput) {
+                    lab.classList.add(actClass);
+                } else {
+                    lab.classList.remove(actClass);
+                }
+            })
+        })
+    })
 }
 
 // Проверка на заполнение ответов (Валидация)

@@ -83,6 +83,8 @@ export default function() {
         const checkButton = document.querySelector('[data-check-radio]');
         const groupButton = document.querySelectorAll('[type="checkbox"]');
         const btnName = '.checkbox-block__text';
+        const inp = 
+        await main.activeClass(inp, lab, actClass)
         await main.checkRadioBtn(checkButton, groupButton, 'second', btnName);
         // await main.removeAnswers(buttonBack);
     }
