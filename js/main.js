@@ -91,7 +91,8 @@ export function checkRadioBtn(button, group, number, btn) {
                     
                     // Находим выбранный ответ, по свойству checked
                     if(item.checked === true) {
-                        answers[number].push(item.parentNode.querySelector(btn).innerText);
+                        console.log(item.parentNode.innerText)
+                        answers[number].push(item.parentNode.innerText);
                         // Добалвяем в объект с ответами
                         console.log(answers)
                     } 
@@ -104,16 +105,16 @@ export function checkRadioBtn(button, group, number, btn) {
 // Добваление активного класса
 export function activeClass(inp, lab, actClass) {
     return new Promise((resolve, reject) => {
-        lab.forEach((active) => {
-            active.addEventListener('click', () => {
-                const activeInput = active.querySelector(inp).checked;
-                if (activeInput) {
-                    lab.classList.add(actClass);
+        lab.forEach((label) => {
+            label.addEventListener('click', (active) => {
+                if (label.querySelector(inp).checked) {
+                    label.classList.add(actClass);
                 } else {
-                    lab.classList.remove(actClass);
+                    label.classList.remove(actClass);
                 }
             })
         })
+        resolve();
     })
 }
 

@@ -24,7 +24,7 @@ export default function() {
                 </label>
                 <!-- // checkbox-block -->
                 <!-- checkbox-block -->
-                <label class="checkbox-block checkbox-block--active">
+                <label class="checkbox-block">
                     <input type="checkbox" name="radio-group" class="checkbox-block__real">
                     <div class="checkbox-block__fake"></div>
                     <div class="checkbox-block__text">Hyper Text Markup Language</div>
@@ -80,12 +80,15 @@ export default function() {
     async function run() {
         await renderPageStart();
         // const buttonBack = await document.querySelector('[data-button-back]');
-        const checkButton = document.querySelector('[data-check-radio]');
-        const groupButton = document.querySelectorAll('[type="checkbox"]');
-        const btnName = '.checkbox-block__text';
-        const inp = 
-        await main.activeClass(inp, lab, actClass)
+        const checkButton = await document.querySelector('[data-check-radio]');
+        const groupButton = await document.querySelectorAll('[type="checkbox"]');
+        const btnName = 'checkbox-block__text';
+        const lab = await document.querySelectorAll('.checkbox-block');
+        const inp = await '[name="radio-group"]';
+        const actClass = await 'checkbox-block--active';
+
         await main.checkRadioBtn(checkButton, groupButton, 'second', btnName);
+        await main.activeClass(inp, lab, actClass)
         // await main.removeAnswers(buttonBack);
     }
     run();
