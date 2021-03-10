@@ -4,7 +4,7 @@ export default function() {
 
     const markupThirdQuestion = `
         <!-- plate-header -->
-        <div class="plate-header">
+        <div data-number-page="4" class="plate-header">
             <div class="plate-header__icon">
                 <img src="img/icons/list.png" alt="Icon">
             </div>
@@ -87,10 +87,10 @@ export default function() {
 
                 <div class="progress">
                     <div class="progress__label">
-                        Готово: <strong>56%</strong>
+                        Готово: <strong>${main.percentProgress}%</strong>
                     </div>
                     <div class="progress__line-wrapper">
-                        <div class="progress__line-bar" style="width: 56%;"></div>
+                        <div class="progress__line-bar" style="width: ${main.percentProgress}%;"></div>
                     </div>
                 </div>
 
@@ -145,6 +145,9 @@ export default function() {
         const cardPath = '.card-block__text';
 
         await answer(card, cardBtn, cardPath);
+
+        let currentPage = await document.querySelector('.plate-header');
+        await main.progressBarLine(currentPage);
         
         // await validate();
     }

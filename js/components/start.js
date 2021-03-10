@@ -2,7 +2,7 @@ import * as main from '../main.js';
 
 export default function() {
 
-    const markupStart = `<div class="cover-content-wrapper">
+    const markupStart = `<div data-number-page="1" class="cover-content-wrapper">
         <div class="cover-content">
             <img class="title-img" src="img/pictures/html.png" alt="HTML">
             <div class="title">Определи свой уровень знания верстки сайтов</div>
@@ -22,6 +22,8 @@ export default function() {
 
     async function runPageStart() {
         await renderPageStart();
+        let currentPage = await document.querySelector('.cover-content-wrapper');
+        await main.progressBarLine(currentPage);
     };
     runPageStart();
 

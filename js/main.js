@@ -51,6 +51,7 @@ const components = [
     }
 ];
 
+export let percentProgress;
 // Рендер с текущей страницы
 export function renderPage(page, markup) {
     return new Promise((resolve, reject) => {
@@ -97,7 +98,7 @@ export function checkRadioBtn(button, group, number, btn) {
                         console.log(answers)
                     } 
                 });
-                checkAnswer(number, e)
+                checkAnswer(number, e);
             });
         }, 300)
 }
@@ -125,6 +126,21 @@ export function checkAnswer(number, item) {
         item.preventDefault();
     }
 }
+
+// 2 x 100 \ 3
+// 2 - "Это текущая карта"
+// 3 - 'Это общее кол-во карточек'
+// Заполнение прогресс бара
+export function progressBarLine(currentPage) {
+    return new Promise((resolve, reject) => {
+        const amountPages = 4;
+        let currentNum = currentPage.dataset.numberPage * 100 / 4;
+        percentProgress = `${currentNum}`
+        // console.log('Процент выполнения --> ', currentNum);
+        resolve(currentNum);
+    })
+}
+
 
 window.addEventListener('hashchange', render);
 window.addEventListener('load', render);
