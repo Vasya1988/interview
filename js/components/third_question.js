@@ -96,8 +96,8 @@ export default function() {
 
             </div>
             <div class="plate-footer__buttons">
-                <a href="#/second-question" class="button button--back">Назад</a>
-                <a href="#/mail-form" data-next-page class="button">Далее</a>
+                <a href="#/second-question" data-button="back" class="button button--back">Назад</a>
+                <a href="#/mail-form" data-button="next" class="button">Далее</a>
             </div>
         </div>
         <!-- // plate-footer -->
@@ -112,44 +112,34 @@ export default function() {
         })
     };
 
-    
-    function answer(card, cardBtn, cardPath) {
-        return new Promise((resolve, reject) => {
-            const buttonNext = document.querySelector('[data-next-page]');
-            const num = 'third';
+   // Событие клик по кнопкам нада и далее
+   function checkClick() {
+    return new Promise ((resolve, reject) => {
+        const button = document.querySelectorAll('[data-button]');
+        const currentPage = document.querySelector('[data-number-page]');
+        // console.log(button);
+        button.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                console.log(btn.dataset.button);
+                if (btn.dataset.button === 'next' || btn.dataset.button === 'start' || btn.dataset.button === 'result') {
+                    main.progressBarLine(currentPage, btn.dataset.button);
+                    // console.log('Идем вперед');
+                    // console.log('----------------------------');
+                } else if (btn.dataset.button === 'back') {
+                    main.progressBarLine(currentPage, btn.dataset.button);
+                    // console.log('Идем назад');
+                    // console.log('----------------------------');
+                }
+            })
             
-            buttonNext.addEventListener('click', (event) => {
-                main.answers[num].pop();
-                card.forEach((answ) => {
-                    if (answ.querySelector(cardBtn).checked === true) {
-                        const answer = answ.querySelector(cardPath).innerText;
-                        main.answers[num].push(answer)
-                        console.log(main.answers);
-                    }
-                });
-                main.checkAnswer(num, event);
-            });
-            resolve();
+            
         })
-    }
+    })
+};
 
     async function run() {
         await renderPageStart();
-        // Карточки с ответами
-        const card = document.querySelectorAll('.card-block');
-
-        // Карточки радиокнопок ответов
-        const cardBtn = '[name="image-group"]';
-
-        // Текст ответа с выбранной карточки
-        const cardPath = '.card-block__text';
-
-        await answer(card, cardBtn, cardPath);
-
-        let currentPage = await document.querySelector('.plate-header');
-        await main.progressBarLine(currentPage);
-        
-        // await validate();
+        await checkClick();
     }
     run();
     

@@ -61,8 +61,8 @@ export default function() {
 
             </div>
             <div class="plate-footer__buttons">
-                <a href="#" class="button button--back">Назад</a>
-                <a href="#/second-question" data-checkRadio class="button">Далее</a>
+                <a href="#" data-button="back" class="button button--back">Назад</a>
+                <a href="#/second-question" data-button="next" class="button">Далее</a>
             </div>
         </div>
         <!-- // plate-footer -->
@@ -78,42 +78,41 @@ export default function() {
         })
     };
 
-    // Добавляем актвиный класс
-    function active() {
-        return new Promise((resolve, reject) => {
-            // Находим элементы на странице
-            const addActiveClass = 'radio-block--active';
-            const buttonGroup = document.querySelectorAll('.radio-block');
-            // Находим выбранный ответ
-            buttonGroup.forEach((answer) => {
-                answer.addEventListener('click', (event) => {
-                    // Добавляем активный класс выбранному ответу
-                    if(answer.querySelector('[name="radio-group"]').checked === true) {
-                        console.log(answer);
-                        answer.classList.add('radio-block--active');
-                    } else {
-                        // Удаляем лишние активные классы
-                        buttonGroup.forEach((e) => {
-                            e.classList.remove('radio-block--active');
-                        })
-                    }
-                    
-                })
-            });
-            resolve();
 
+    // Событие клик по кнопкам нада и далее
+    function checkClick() {
+        return new Promise ((resolve, reject) => {
+            const button = document.querySelectorAll('[data-button]');
+            const currentPage = document.querySelector('[data-number-page]');
+            // console.log(button);
+            button.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    if (btn.dataset.button === 'next' || btn.dataset.button === 'start' || btn.dataset.button === 'result') {
+                        // console.log('Идем вперед');
+                        // console.log('----------------------------');
+                        main.progressBarLine(currentPage, btn.dataset.button);
+                    } else if (btn.dataset.button === 'back') {
+                        main.progressBarLine(currentPage, btn.dataset.button);
+                        // console.log('Идем назад');
+                        // console.log('----------------------------');
+                    }
+                })
+                
+                
+            })
         })
-    }
+    };
+
+    /*
+
+    1 Прослушиваем кнопки
+    2 Добавляем функции в событие клик, записи ответов, активных ответов, прогресс бара
+    */
 
     async function run() {
-        await renderPageStart();
-        const checkButton = await document.querySelector('[data-checkRadio]');
-        const checkGroup = await document.querySelectorAll('[name="radio-group"]');
-        const btnName = await '.radio-block__text';
-        await active();
-        await main.checkRadioBtn(checkButton, checkGroup, 'first', btnName);
-        let currentPage = await document.querySelector('.plate-header');
-        await main.progressBarLine(currentPage);
+        await renderPageStart().then();
+        await checkClick();
+        
     }
     run();
     

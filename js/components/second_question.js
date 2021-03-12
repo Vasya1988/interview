@@ -62,8 +62,8 @@ export default function() {
 
             </div>
             <div class="plate-footer__buttons">
-                <a href="#/first-question" data-button-back class="button button--back">Назад</a>
-                <a href="#/third-question" data-check-radio class="button">Далее</a>
+                <a href="#/first-question" data-button="back" class="button button--back">Назад</a>
+                <a href="#/third-question" data-button="next" class="button">Далее</a>
             </div>
         </div>
         <!-- // plate-footer -->
@@ -77,22 +77,34 @@ export default function() {
         })
     };
 
+    // Событие клик по кнопкам нада и далее
+    function checkClick() {
+        return new Promise ((resolve, reject) => {
+            const button = document.querySelectorAll('[data-button]');
+            const currentPage = document.querySelector('[data-number-page]');
+            // console.log(button);
+            button.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    console.log(btn.dataset.button);
+                    if (btn.dataset.button === 'next' || btn.dataset.button === 'start' || btn.dataset.button === 'result') {
+                        main.progressBarLine(currentPage, btn.dataset.button);
+                        // console.log('Идем вперед');
+                        // console.log('----------------------------');
+                    } else if (btn.dataset.button === 'back') {
+                        main.progressBarLine(currentPage, btn.dataset.button);
+                        // console.log('Идем назад');
+                        // console.log('----------------------------');
+                    }
+                })
+                
+                
+            })
+        })
+    };
+
     async function run() {
         await renderPageStart();
-        // const buttonBack = await document.querySelector('[data-button-back]');
-        const checkButton = await document.querySelector('[data-check-radio]');
-        const groupButton = await document.querySelectorAll('[type="checkbox"]');
-        const btnName = 'checkbox-block__text';
-        const lab = await document.querySelectorAll('.checkbox-block');
-        const inp = await '[name="radio-group"]';
-        const actClass = await 'checkbox-block--active';
-
-        await main.checkRadioBtn(checkButton, groupButton, 'second', btnName);
-        await main.activeClass(inp, lab, actClass)
-
-        let currentPage = await document.querySelector('.plate-header');
-        await main.progressBarLine(currentPage);
-        // await main.removeAnswers(buttonBack);
+        await checkClick();
     }
     run();
     

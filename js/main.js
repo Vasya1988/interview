@@ -131,16 +131,33 @@ export function checkAnswer(number, item) {
 // 2 - "Это текущая карта"
 // 3 - 'Это общее кол-во карточек'
 // Заполнение прогресс бара
-export function progressBarLine(currentPage) {
+export function progressBarLine(currentPage, button) {
     return new Promise((resolve, reject) => {
         const amountPages = 4;
-        let currentNum = currentPage.dataset.numberPage * 100 / 4;
-        percentProgress = `${currentNum}`
-        // console.log('Процент выполнения --> ', currentNum);
+        let currentNum = Number(currentPage.dataset.numberPage);
+
+        if (button === 'next' || button === 'start') {
+            percentProgress = `${currentNum * 100 / 4}`;
+            console.log('Процент, ушли вперед --> ', currentNum);
+        } else if (button === 'back') {
+            currentNum = currentNum - 1;
+            console.log('Назад', currentNum, percentProgress)
+            percentProgress = `${percentProgress - (currentNum * 100 / 4)}`;
+            console.log('Процент, ушли назад --> ', percentProgress);
+        }
+        console.log('Процент --> ', Number(percentProgress));
         resolve(currentNum);
     })
 }
 
+// Заполнение прогресс бара, при нажатии кнопки "Назад"
+// export function progressBarLineBack(currentPage, curNum) {
+//     console.log('Hey');
+//     let currentNum = currentPage.dataset.numberPage * 100 / 4;
+//     percentProgress = curNum - currentNum;
+//     console.log(percentProgress);
+// }
+// progressBarLineBack();
 
 window.addEventListener('hashchange', render);
 window.addEventListener('load', render);

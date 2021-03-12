@@ -13,7 +13,7 @@ export default function() {
                 <input class="input-email" type="email" id="email" placeholder="Ваш Email">
             </div>
 
-            <input class="button button--huge" type="submit" value="Получить результаты">
+            <input data-button="result" class="button button--huge" type="submit" value="Получить результаты">
 
             <label class="checkbox">
                 <input type="checkbox" class="checkbox__real">
