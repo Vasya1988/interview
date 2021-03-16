@@ -140,9 +140,11 @@ export function progressBarLine(currentPage, button) {
             percentProgress = `${currentNum * 100 / 4}`;
             console.log('Процент, ушли вперед --> ', currentNum);
         } else if (button === 'back') {
-            currentNum = currentNum - 1;
-            console.log('Назад', currentNum, percentProgress)
-            percentProgress = `${percentProgress - (currentNum * 100 / 4)}`;
+            currentNum = (currentNum - 2) * 100 / 4;
+            console.log('Назад')
+            console.log('Текущая страница кнопка назад --> ', currentNum);
+            console.log('Текущий процент в массиве --> ', percentProgress);
+            percentProgress = currentNum;
             console.log('Процент, ушли назад --> ', percentProgress);
         }
         console.log('Процент --> ', Number(percentProgress));
