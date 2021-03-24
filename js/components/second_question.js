@@ -4,7 +4,7 @@ export default function() {
 
     const markupSecondQuestion = `
         <!-- plate-header -->
-        <div data-number-page="3" class="plate-header">
+        <div data-number-page="second" data-number="3" class="plate-header">
             <div class="plate-header__icon">
                 <img src="img/icons/list.png" alt="Icon">
             </div>
@@ -84,10 +84,12 @@ export default function() {
             const currentPage = document.querySelector('[data-number-page]');
             // console.log(button);
             button.forEach((btn) => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (event) => {
                     console.log(btn.dataset.button);
                     if (btn.dataset.button === 'next' || btn.dataset.button === 'start' || btn.dataset.button === 'result') {
+                        main.checkInputButton();
                         main.progressBarLine(currentPage, btn.dataset.button);
+                        main.checkAnswer(currentPage.dataset.numberPage, event);
                         // console.log('Идем вперед');
                         // console.log('----------------------------');
                     } else if (btn.dataset.button === 'back') {

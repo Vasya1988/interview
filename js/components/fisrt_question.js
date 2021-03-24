@@ -3,7 +3,7 @@ import * as main from '../main.js';
 export default function() {
 
     const markupFirstQuestion = `<!-- plate-header -->
-        <div data-number-page="2" class="plate-header">
+        <div data-number-page="first" data-number="2" class="plate-header">
             <div class="plate-header__icon">
                 <img src="img/icons/list.png" alt="Icon">
             </div>
@@ -86,16 +86,19 @@ export default function() {
             const currentPage = document.querySelector('[data-number-page]');
             // console.log(button);
             button.forEach((btn) => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (event) => {
                     if (btn.dataset.button === 'next' || btn.dataset.button === 'start' || btn.dataset.button === 'result') {
                         // console.log('Идем вперед');
                         // console.log('----------------------------');
-                        main.progressBarLine(currentPage, btn.dataset.button);
+                        main.checkInputButton();
+                        
+                        main.checkAnswer(currentPage.dataset.numberPage, event);
                     } else if (btn.dataset.button === 'back') {
                         main.progressBarLine(currentPage, btn.dataset.button);
                         // console.log('Идем назад');
                         // console.log('----------------------------');
                     }
+                    main.progressBarLine(currentPage, btn.dataset.button);
                 })
                 
                 

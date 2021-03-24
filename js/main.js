@@ -79,45 +79,39 @@ function render() {
 }
 
 // Собираем ответы
-export function checkRadioBtn(button, group, number, btn) {
-        setTimeout(()=> {
-            // Прослушиваем событие клик кнопки "Далее"
-            button.addEventListener('click', (e) => {
-                answers[number].forEach((e, i)=> {
-                    answers[number] = [];
-                    console.log(answers[number]);
-                })
-                // Перебираем радио кнопки
-                group.forEach((item) => {
-                    
-                    // Находим выбранный ответ, по свойству checked
-                    if(item.checked === true) {
-                        console.log(item.parentNode.innerText)
-                        answers[number].push(item.parentNode.innerText);
-                        // Добалвяем в объект с ответами
-                        console.log(answers)
-                    } 
-                });
-                checkAnswer(number, e);
-            });
-        }, 300)
-}
-
-// Добваление активного класса
-export function activeClass(inp, lab, actClass) {
+export function checkInputButton(type) {
     return new Promise((resolve, reject) => {
-        lab.forEach((label) => {
-            label.addEventListener('click', (active) => {
-                if (label.querySelector(inp).checked) {
-                    label.classList.add(actClass);
-                } else {
-                    label.classList.remove(actClass);
-                }
-            })
-        })
+        const questionNumber = document.querySelector('[data-number-page]').dataset.numberPage;
+        answers[questionNumber] = [];
+        document
+            .querySelectorAll('label')
+            .forEach((active) => {
+                const findInput = active.querySelector('[type="radio"], [type="checkbox"]');
+                if (findInput.checked) {
+                    console.log('Чекнутый --> ', findInput);
+                    const answer = active.querySelector('.card-block__text, .checkbox-block__text, .radio-block__text');
+                    answers[questionNumber].push(active.innerText);
+                    console.log('Ответ --> ', answers);
+                    active.classList.add('radio-block--active')
+                } 
+            });
         resolve();
     })
 }
+
+// Добавление активного класса
+export function changeClass() {
+        const a = document.querySelectorAll('label');
+        a.forEach((e) => {
+            if (e.querySelector('input').checked) {
+                e.classList.add('radio-block--active');
+            } else {
+                e.classList.remove('radio-block--active');
+            }
+        })
+}
+changeClass();
+
 
 // Проверка на заполнение ответов (Валидация)
 export function checkAnswer(number, item) {
@@ -134,32 +128,18 @@ export function checkAnswer(number, item) {
 export function progressBarLine(currentPage, button) {
     return new Promise((resolve, reject) => {
         const amountPages = 4;
-        let currentNum = Number(currentPage.dataset.numberPage);
-
+        let currentNum = currentPage.dataset.number;
         if (button === 'next' || button === 'start') {
             percentProgress = `${currentNum * 100 / 4}`;
-            console.log('Процент, ушли вперед --> ', currentNum);
         } else if (button === 'back') {
             currentNum = (currentNum - 2) * 100 / 4;
-            console.log('Назад')
-            console.log('Текущая страница кнопка назад --> ', currentNum);
-            console.log('Текущий процент в массиве --> ', percentProgress);
-            percentProgress = currentNum;
-            console.log('Процент, ушли назад --> ', percentProgress);
+            percentProgress =currentNum;
         }
-        console.log('Процент --> ', Number(percentProgress));
+        console.log('Процент --> ', percentProgress);
         resolve(currentNum);
     })
 }
 
-// Заполнение прогресс бара, при нажатии кнопки "Назад"
-// export function progressBarLineBack(currentPage, curNum) {
-//     console.log('Hey');
-//     let currentNum = currentPage.dataset.numberPage * 100 / 4;
-//     percentProgress = curNum - currentNum;
-//     console.log(percentProgress);
-// }
-// progressBarLineBack();
-
 window.addEventListener('hashchange', render);
 window.addEventListener('load', render);
+window.addEventListener('input', changeClass)
